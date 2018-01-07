@@ -3,6 +3,9 @@ import imaplib
 import smtpd
 import time
 
+# This program reads emails and prints out the sender and subject line.
+# Written by David Klein, January 7 2017
+
 account = 'yourEmail@gmail.com'
 password = 'yourPassword'
 		# Gmail users will have to allow access to less secure apps from this link.
