@@ -8,6 +8,7 @@ import email.mime.text
 # This program searches inbox emails for a specific string in the subject line, then sends a reply email to the sender.
 # Written by David Klein, January 7 2017
 
+
 def main():
 
 	# The variables below are for you to define to your preferences.
@@ -35,6 +36,7 @@ def main():
 
 	print('Target found, sending confirmation to: ' + recipient)
 	send_mail(account, password, recipient, reply_subject, reply_body)
+
 
 def send_mail(account, password, recipient, reply_subject, reply_body):
 	"""
@@ -64,6 +66,7 @@ def send_mail(account, password, recipient, reply_subject, reply_body):
 
 	except Exception as e:
 		print('send_mail error: ' + str(e))
+
 
 def read_mail(account, password, target, limit, searching, recipient):
 	"""
@@ -107,7 +110,9 @@ def read_mail(account, password, target, limit, searching, recipient):
 		mail.close()
 		return searching, recipient
 
+
 	except Exception as e:
 		print('read_mail error: ' + str(e))
+
 
 main()

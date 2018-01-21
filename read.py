@@ -15,7 +15,9 @@ password = 'yourPassword'
 smtp_server = 'imap.gmail.com'
 smtp_port = 993
 
+
 def readmail():
+
 	try:
 		mail = imaplib.IMAP4_SSL(smtp_server)
 		mail.login(account, password)
@@ -36,7 +38,10 @@ def readmail():
 					print('From: ' + email_from)
 					print('Subject: ' + email_subject + '\n')
 
+
 	except Exception as e:
 		print('ERROR: ' + str(e))
 
+
 readmail()
+
