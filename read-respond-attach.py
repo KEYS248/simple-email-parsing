@@ -4,11 +4,10 @@ import smtplib
 import email
 import email.mime.multipart
 import email.mime.text
-import email.mime.base
-import email.encoders
+import email.mime.image
 
 # This program searches inbox emails for a specific string in the subject line, then sends a reply email to the sender.
-# Written by David Klein, January 7 2017
+# Written by David Klein, January 20 2017
 
 
 def main():
@@ -33,7 +32,9 @@ def main():
 	while searching:
 		print('Running loop {}...'.format(loop))
 		searching, recipient = read_mail(account, password, target, limit, searching, recipient)
-		time.sleep(60) # The program waits 60 seconds before attempting to read the inbox again.
+		if len(recipient) == 0:
+			print('\tWaiting...')
+			time.sleep(60) # The program waits 60 seconds before attempting to read the inbox again.
 		loop += 1
 
 	print('Target found, sending confirmation to: ' + recipient)
@@ -62,15 +63,24 @@ def send_mail(account, password, recipient, reply_subject, reply_body):
 		body = reply_body
 		msg.attach(email.mime.text.MIMEText(body, 'plain'))
 
-		# This block below reads your file, makes it into a 'part' type, opens a stream for upload to the email,
-		# 	encodes the file in base 64, adds a header to the 'part', and attaches it to the message
-		filename = 'YourAttachmentName.txt'
-		attachment = open(filename, 'rb')
-		part = email.mime.base.MIMEBase('application', 'octet-stream')
-		part.set_payload(attachment).read()
-		email.encoders.encode_base64(part)
-		part.add_header('Content-Disposition', 'attachment; filename=' + filename)
-		msg.attach(part)
+		# This block below opens your text file, encodes it for email transfer,
+		# 	adds the title of the file as a header, then attaches it to the main email
+		file = 'YourAttachmentName.txt'
+		pointer = open(file, 'rb')
+		text = email.mime.text.MIMEText(pointer)
+		text.add_header('Context-Disposition', 'attachment', filename=file)
+		pointer.close()
+		msg.attach(text)
+
+		# For image attachments you would change the format slightly to this
+		"""
+		file = 'YourImage.png'
+		pointer = open(file, 'rb')
+		img = email.mime.image.MIMEImage(pointer)
+		text.add_header('Context-Disposition', 'attachment', filename=file)
+		pointer.close()
+		msg.attach(img)
+		"""
 
 		text = msg.as_string()
 		server.sendmail(account, recipient, text)
