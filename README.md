@@ -1,5 +1,5 @@
 # simple-email-parsing
-Explanation and examples: simple programs to reading through emails with IMAP
+Explanation and examples: simple programs to reading through emails with IMAP and responding with SMTP.
 
 ## read.py
 Reads inbox emails from a specified email account using IMAP and prints out the senders and subject lines.
